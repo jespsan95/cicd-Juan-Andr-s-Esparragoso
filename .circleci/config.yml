@@ -1,1 +1,56 @@
-afdf
+version: 2.1
+
+executors:
+  python:
+    docker:
+      - image: cimg/python:3.12
+
+orbs:
+  python: circleci/python@2.1.1
+
+commands:
+  echo:
+    parameters:
+      message:
+        type: string
+        default: "hello world"
+    steps:
+      - run: echo << parameters.message >>
+
+jobs:
+  hello-job:
+    executor: python
+    steps:
+      - checkout
+      - echo
+
+  hello-job-setter:
+    executor: python
+    steps:
+      - run: echo "hello world" > hello.txt
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./
+
+  hello-job-getter:
+    executor: python
+    steps:
+      - attach_workspace:
+          at: .
+      - run: |
+          if [[ `cat hello.txt` == "hello world" ]]; then
+            echo "It worked!";
+          else
+            echo "Nope!"; exit 1
+          fi
+
+workflows:
+  my-workflow:
+    jobs:
+      - hello-job
+      - hello-orb/hello
+      - hello-job-setter
+      - hello-job-getter:
+          requires:
+            - hello-job-setter
