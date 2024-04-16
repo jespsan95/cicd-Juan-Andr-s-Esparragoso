@@ -55,7 +55,6 @@ workflows:
   my-workflow:
     jobs:
       - hello-job
-      - hello-orb/hello
       - hello-job-setter
       - hello-job-getter:
           requires:
