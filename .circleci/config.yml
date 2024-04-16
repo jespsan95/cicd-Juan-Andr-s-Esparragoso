@@ -1,14 +1,15 @@
 version: 2.1
 
 executors:
-  python:
+  node:
     docker:
-      - image: cimg/python:3.12
+      - image: cimg/node:17.2.0 # the primary container, where your job's commands are run
 
 orbs:
-  python: circleci/python@2.1.1
+  hello-orb: xavidop/circleci-orb-hello-world@0.0.1
 
 commands:
+  # A command named `echo` that runs the `echo` command
   echo:
     parameters:
       message:
@@ -19,24 +20,29 @@ commands:
 
 jobs:
   hello-job:
-    executor: python
+    executor: node # use the `node` executor defined above
     steps:
-      - checkout
-      - echo
+      - checkout # check out the code in the project directory
+      - echo # run the `echo` command
 
   hello-job-setter:
-    executor: python
+    executor: node # use the `node` executor defined above
     steps:
       - run: echo "hello world" > hello.txt
+      # Persist the specified paths (workspace/echo-output) into the workspace for use in downstream job.
       - persist_to_workspace:
+          # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is
+          # taken to be the root directory of the workspace.
           root: .
+          # Must be relative path from root
           paths:
             - ./
 
   hello-job-getter:
-    executor: python
+    executor: node # use the `node` executor defined above
     steps:
       - attach_workspace:
+          # Must be absolute path or relative path from working_directory
           at: .
       - run: |
           if [[ `cat hello.txt` == "hello world" ]]; then
@@ -49,6 +55,7 @@ workflows:
   my-workflow:
     jobs:
       - hello-job
+      - hello-orb/hello
       - hello-job-setter
       - hello-job-getter:
           requires:
