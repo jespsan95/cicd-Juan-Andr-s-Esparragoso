@@ -49,7 +49,6 @@ workflows:
   my-workflow:
     jobs:
       - hello-job
-      - python-orb/hello
       - hello-job-setter
       - hello-job-getter:
           requires:
