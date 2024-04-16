@@ -6,7 +6,7 @@ executors:
       - image: cimg/node:17.2.0 # the primary container, where your job's commands are run
 
 orbs:
-  hello-orb: xavidop/circleci-orb-hello-world@0.0.1
+  hello-orb: circleci/node@5.2.0
 
 commands:
   # A command named `echo` that runs the `echo` command
