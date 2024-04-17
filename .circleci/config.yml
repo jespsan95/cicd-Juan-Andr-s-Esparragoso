@@ -1,10 +1,13 @@
 version: 2.1
 
-jobs:
-  test:
-    working_directory: ~/repo
+defaults: &defaults
+  working_directory: ~/repo
   docker:
     - image: cimg/node:20.5.1
+
+jobs:
+  test:
+    <<: *defaults  
     steps:
       - checkout
       - restore_cache:
@@ -22,6 +25,7 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
+            
 workflows:
   test-deploy:
     jobs:
