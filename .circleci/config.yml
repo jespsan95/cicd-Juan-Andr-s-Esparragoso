@@ -17,8 +17,8 @@ jobs:
       - run:
           name: Install ggshield
           command: |
-            chmod 777 -R /usr/local/bin/ggshield
             curl -L https://github.com/GitGuardian/ggshield/releases/latest/download/ggshield_linux_amd64 -o /usr/local/bin/ggshield
+            chmod 777 -R /usr/local/bin/ggshield
             chmod +x /usr/local/bin/ggshield
       - restore_cache:
           keys:
