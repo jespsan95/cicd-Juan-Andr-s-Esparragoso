@@ -16,7 +16,12 @@ jobs:
       - checkout
       - run:
           name: Install ggshield
-          command: ggshield/install
+          command: |
+            mkdir -p ~/bin
+            cd ~/bin
+            curl -L https://github.com/GitGuardian/ggshield/releases/latest/download/ggshield_linux_amd64 -o ggshield
+            chmod +x ggshield
+
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
@@ -35,14 +40,7 @@ jobs:
       - run:
           name: Scan for secrets with ggshield
           command: ggshield scan -r .
-      - run:
-          name: GitGuardian Vulnerability Scan
-          command: |
-            curl -X POST -H "Authorization: Bearer $GITGUARDIAN_API_KEY" \
-            -H "Content-Type: application/json" \
-            -d '{"ref":"main"}' \
-            https://api.gitguardian.com/v1/integrations/circleci/scan
-      
+
       - save_cache:
           paths:
             - node_modules
@@ -50,31 +48,7 @@ jobs:
       - persist_to_workspace:
           root: ~/repo
           paths: .
-  deploy:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/repo/.npmrc
-      - run:
-          name: Pack package
-          command: npm pack
-      - run:
-          name: Publish package
-          command: npm publish --dry run
-      - store_artifacts:
-          path: ~/repo/my-awesome-package-1.1.0.tgz
-          destination: package/release.tgz
-      - store_artifacts:
-          path: ~/repo/dist
-          destination: dist
-      - store_artifacts:
-          path: ~/repo/docs
-          destination: docs
 
-            
 workflows:
   test-deploy:
     jobs:
@@ -91,4 +65,4 @@ workflows:
             tags:
               only: /^v.*/
             branches:
-              ignore: /.*/          
+              ignore: /.*/
