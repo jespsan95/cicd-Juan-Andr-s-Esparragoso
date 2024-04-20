@@ -32,6 +32,7 @@ jobs:
       - store_test_results:
           path: test-results.xml
       - sonarcloud/scan
+      - ggshield/scan
       - run:
           name: GitGuardian Vulnerability Scan
           command: |
@@ -40,7 +41,6 @@ jobs:
             -d '{"ref":"main"}' \
             https://api.gitguardian.com/v1/integrations/circleci/scan
       
-      - ggshield/scan
       - save_cache:
           paths:
             - node_modules
