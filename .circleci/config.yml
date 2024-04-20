@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   sonarcloud: sonarsource/sonarcloud@2.0.0
+  ggshield: gitguardian/ggshield@volatile
 
 defaults: &defaults
   working_directory: ~/repo
