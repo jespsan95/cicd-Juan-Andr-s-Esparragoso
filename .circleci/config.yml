@@ -18,11 +18,9 @@ jobs:
           name: Install ggshield
           command: |
             mkdir -p ~/bin
-            curl -L https://github.com/GitGuardian/ggshield/releases/latest/download/ggshield_linux_amd64 -o ~/bin/ggshield_temp
-            chmod +x ~/bin/ggshield_temp
-            mv ~/bin/ggshield_temp ~/bin/ggshield
-            export PATH="$HOME/bin:$PATH"
-            ggshield version
+            cd ~/bin
+            curl -L https://github.com/GitGuardian/ggshield/releases/latest/download/ggshield_linux_amd64 -o ggshield
+            chmod +x ggshield
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
