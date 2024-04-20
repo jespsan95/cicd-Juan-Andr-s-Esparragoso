@@ -39,8 +39,8 @@ jobs:
       - run:
           name: Scan for secrets with ggshield
           command: |
-            curl -L https://github.com/GitGuardian/ggshield/releases/latest/download/ggshield_linux_amd64.tar.gz -o ggshield.tar.gz
-            tar -xf ggshield.tar.gz
+            curl -L https://github.com/GitGuardian/ggshield/releases/latest/download/ggshield_linux_amd64 -o ggshield
+            chmod +x ggshield
             ./ggshield scan -r .
 
       - save_cache:
