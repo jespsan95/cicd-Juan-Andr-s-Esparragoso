@@ -32,7 +32,9 @@ jobs:
       - store_test_results:
           path: test-results.xml
       - sonarcloud/scan
-      - ggshield/scan
+      - run:
+          name: Scan for secrets with ggshield
+          command: ggshield scan -r .
       - run:
           name: GitGuardian Vulnerability Scan
           command: |
