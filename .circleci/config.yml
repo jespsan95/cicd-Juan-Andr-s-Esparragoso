@@ -38,6 +38,9 @@ jobs:
           path: test-results.xml
       - sonarcloud/scan
       - run:
+          name: Add ~/bin to PATH
+          command: echo 'export PATH="$HOME/bin:$PATH"' >> $BASH_ENV && source $BASH_ENV
+      - run:
           name: Scan for secrets with ggshield
           command: ggshield scan -r .
 
