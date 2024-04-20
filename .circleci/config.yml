@@ -21,6 +21,7 @@ jobs:
             curl -L https://github.com/GitGuardian/ggshield/releases/latest/download/ggshield_linux_amd64 -o ~/bin/ggshield
             chmod +x ~/bin/ggshield
             export PATH="$HOME/bin:$PATH"
+            ~/bin/ggshield version
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
