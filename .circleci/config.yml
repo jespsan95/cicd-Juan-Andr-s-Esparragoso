@@ -78,10 +78,4 @@ workflows:
             tags:
               only: /^v.*/
             branches:
-              ignore: /.*/
-  scan_my_commits:
-    jobs:
-      - ggshield/scan:
-          name: ggshield-scan
-          base_revision: <<pipeline.git.base_revision>>
-          revision: <<pipeline.git.revision>>
+              ignore: /.*/          
