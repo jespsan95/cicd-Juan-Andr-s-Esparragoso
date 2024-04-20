@@ -29,6 +29,13 @@ jobs:
       - store_test_results:
           path: test-results.xml
       - sonarcloud/scan
+      - run:
+          name: GitGuardian Vulnerability Scan
+          command: |
+            curl -X POST -H "Authorization: Bearer $GITGUARDIAN_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"ref":"main"}' \
+            https://api.gitguardian.com/v1/integrations/circleci/scan
 
       - save_cache:
           paths:
