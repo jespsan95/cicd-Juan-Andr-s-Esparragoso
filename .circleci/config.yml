@@ -36,12 +36,6 @@ jobs:
             -H "Content-Type: application/json" \
             -d '{"ref":"main"}' \
             https://api.gitguardian.com/v1/integrations/circleci/scan
-      - run:
-          name: Scan for secrets with ggshield
-          command: |
-            curl -L https://github.com/GitGuardian/ggshield/releases/latest/download/ggshield_linux_amd64 -o ggshield
-            chmod +x ggshield
-            ./ggshield scan -r .
 
       - save_cache:
           paths:
