@@ -14,6 +14,11 @@ jobs:
     <<: *defaults  
     steps:
       - checkout
+      - run:
+          name: Install ggshield
+          command: |
+            curl -L https://github.com/GitGuardian/ggshield/releases/latest/download/ggshield_linux_amd64 -o /usr/local/bin/ggshield
+            chmod +x /usr/local/bin/ggshield
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
